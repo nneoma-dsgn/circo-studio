@@ -1,0 +1,403 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  background: var(--bg-primary);
+}
+
+body {
+  margin: 0;
+  background: var(--bg-primary);
+  color: var(--text-100);
+  font-family: var(--font);
+  letter-spacing: var(--tracking);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--text-100);
+  outline-offset: 3px;
+}
+
+main {
+  min-height: 100vh;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn-white,
+.btn-dark,
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 28px;
+  border-radius: 100px;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  line-height: 19px;
+  white-space: nowrap;
+  transition: transform 0.2s var(--ease), background 0.2s;
+}
+
+.btn-white {
+  background: var(--bg-light);
+  color: var(--text-on-light);
+}
+
+.btn-white:hover {
+  background: var(--text-200);
+}
+
+.btn-white--sm,
+.btn-dark--sm,
+.btn-accent--sm {
+  height: 40px;
+  padding: 0 18px;
+  font-size: var(--fs-body-sm);
+}
+
+.btn-dark {
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--text-100);
+}
+
+.btn-dark:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Accent: brand pink, for promoting Circo itself (Get the app). */
+.btn-accent {
+  background: var(--accent);
+  color: var(--text-100);
+}
+
+.btn-accent:hover {
+  filter: brightness(1.1);
+}
+
+.btn-white:active,
+.btn-dark:active,
+.btn-accent:active {
+  transform: scale(0.97);
+}
+
+/* ---------- Menu + toast ---------- */
+
+.toast {
+  position: fixed;
+  z-index: 400;
+  top: 24px;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100% - 32px);
+  padding: 12px 18px 12px 14px;
+  border-radius: 14px;
+  background: rgba(28, 28, 30, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 24px 60px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  color: var(--text-100);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
+  line-height: 1.3;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -16px) scale(0.97);
+  transition: transform 0.32s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.2s ease;
+}
+
+.toast--on {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+/* Small check that draws itself once the toast lands. */
+.toast__icon {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  flex: none;
+}
+
+.toast__icon svg {
+  stroke-dasharray: 16;
+  stroke-dashoffset: 16;
+  transition: stroke-dashoffset 0.3s ease 0.15s;
+}
+
+.toast--on .toast__icon svg {
+  stroke-dashoffset: 0;
+}
+
+/* ---------- Dropdown (shared by every menu) ---------- */
+
+.dd {
+  position: fixed;
+  z-index: 250;
+  padding: 6px;
+  border-radius: 18px;
+  background: rgba(28, 28, 30, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 24px 60px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  animation: dd-in 0.18s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+@keyframes dd-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(-4px);
+  }
+}
+
+.dd__header {
+  padding: 10px 12px 12px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dd__title {
+  display: block;
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--text-300);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dd__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  border-radius: 12px;
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-medium);
+  text-align: left;
+  color: var(--text-100);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.dd__item:hover,
+.dd__item:focus-visible {
+  background: rgba(255, 255, 255, 0.09);
+  outline: 0;
+}
+
+.dd__item:active {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.dd__icon {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  color: var(--text-200);
+  flex: none;
+}
+
+.dd__label {
+  flex: 1;
+}
+
+.dd__hint {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+  color: var(--text-300);
+  font-variant-numeric: tabular-nums;
+}
+
+.dd__tick {
+  color: var(--text-100);
+}
+
+.dd__chevron {
+  flex: none;
+  margin-left: -6px;
+  color: var(--text-300);
+}
+
+.dd__item--danger,
+.dd__item--danger .dd__icon {
+  color: #ff6b6b;
+}
+
+.dd__item--danger:hover,
+.dd__item--danger:focus-visible {
+  background: rgba(255, 75, 75, 0.12);
+}
+
+.dd__sep {
+  height: 1px;
+  margin: 6px 8px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dd {
+    animation: none;
+  }
+}
+
+/* ---------- Phones: menus as bottom sheets ---------- */
+
+.dd__grab,
+.dd-scrim {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .dd-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 240;
+    background: rgba(0, 0, 0, 0.55);
+    animation: ui-dialog-in 0.2s ease;
+  }
+
+  /* A floating sheet, as in the design: inset from the sides and the bottom, rounded all
+     round, solid so the page doesn't show through. */
+  .dd.dd--sheet {
+    position: fixed;
+    inset: auto 12px calc(12px + env(safe-area-inset-bottom)) 12px;
+    top: auto;
+    width: auto;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 10px 8px 12px;
+    border-radius: 28px;
+    background: #1c1c1e;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    transform-origin: bottom center;
+    animation: dd-sheet-up 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .dd__grab {
+    display: block;
+    width: 40px;
+    height: 5px;
+    margin: 0 auto 10px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Sheet rows: full width, a hairline between, a little taller to tap. */
+  .dd--sheet .dd__item {
+    min-height: 56px;
+    border-radius: 0;
+    font-size: var(--fs-body);
+  }
+
+  .dd--sheet .dd__item + .dd__item {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+}
+
+@keyframes dd-sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+/* ---------- Phones ---------- */
+
+@media (max-width: 767px) {
+  :root {
+    --gutter: 16px;
+  }
+
+  .toast {
+    top: calc(14px + env(safe-area-inset-top));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Underline field (shared text and select fields) ---------- */
+
+.uline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  margin-top: 36px;
+  border-bottom: 1px solid var(--input-line);
+  transition: border-color 0.2s;
+}
+
+.uline:focus-within {
+  border-bottom-color: var(--input-line-focus);
+}
+
+.uline--error,
+.uline--error:focus-within {
+  border-bottom-color: var(--danger);
+}
+
+.uline input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  background: none;
+  border: 0;
+  outline: 0;
+  color: var(--text-100);
+  font: inherit;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
+  letter-spacing: inherit;
+}
+
+.uline input::placeholder {
+  color: var(--text-400);
+}

@@ -1,0 +1,105 @@
+/* ---------- Dashboard frame: sidebar on desktop, top bar on phones ---------- */
+
+.studio {
+  /* No top bar over the content on desktop, so pages start at the top. */
+  --nav-h: 0px;
+  --side-w: 240px;
+  display: grid;
+  grid-template-columns: var(--side-w) minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.studio__side {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  height: 100vh;
+  padding: var(--space-6) var(--space-4);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--bg-primary);
+}
+
+.studio__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 var(--space-3);
+}
+
+.studio__brand span {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  color: var(--text-300);
+}
+
+.studio__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.studio__link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 44px;
+  padding: 0 var(--space-3);
+  border-radius: 12px;
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-medium);
+  color: var(--text-200);
+  transition: background 0.2s, color 0.2s;
+}
+
+.studio__link:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-100);
+}
+
+.studio__link.is-on {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-100);
+}
+
+.studio__main {
+  min-width: 0;
+}
+
+/* Pages inside the frame: room at the top and sides. */
+.page--padded {
+  padding: var(--space-8) 0 96px;
+}
+
+.page--padded > * {
+  margin-left: var(--gutter);
+  margin-right: var(--gutter);
+}
+
+@media (max-width: 767px) {
+  .studio {
+    --nav-h: 56px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The sidebar becomes a top bar: brand on the left; the section links come back as a menu
+     once there's more than one. */
+  .studio__side {
+    z-index: 100;
+    flex-direction: row;
+    align-items: center;
+    height: calc(var(--nav-h) + env(safe-area-inset-top));
+    padding: env(safe-area-inset-top) var(--space-2) 0 var(--space-1);
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .studio__nav {
+    display: none;
+  }
+
+  .page--padded {
+    padding: var(--space-4) 0 96px;
+  }
+}
