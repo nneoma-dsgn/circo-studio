@@ -91,7 +91,7 @@ export default function Account() {
             className="acct__item acct__item--out"
             onClick={() => {
               signOut()
-              toast('Logged out')
+              router.replace('/login')
             }}
           >
             <span className="acct__icon">

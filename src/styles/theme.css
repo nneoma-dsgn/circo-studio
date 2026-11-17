@@ -1,0 +1,265 @@
+/* ---------- Studio theme: the business look ----------
+   Circo Studio is a workplace, not a cinema: quiet and exact, after Circo's creator site
+   (circleandclique.org). Geist with Geist Mono for labels, dark, with Circo red for the one
+   main action, 4-6px corners instead of pills.
+
+   The shared design system (tokens.css, ui.css, base.css) stays identical to the viewer app's.
+   This file loads after it and re-points the tokens, then restyles the few rules that hard-code
+   the dark look. Keep Studio-only styling here. */
+
+:root {
+  /* Dark by default, like the viewer app; the business look is in the type, corners and
+     restraint, not the colour of the page. */
+  --bg-primary: #0b0b0c; /* the page */
+  --bg-200: #111113; /* side panels, page bands */
+  --bg-400: #2a2a2e;
+  --bg-light: #ffffff;
+
+  /* Text: white and three greys */
+  --text-100: #f5f5f6;
+  --text-200: #d4d4d8;
+  --text-300: #a1a1aa;
+  --text-tertiary: #8b8b94;
+  --text-400: #71717a;
+  --text-on-light: #0b0b0c;
+
+  /* Strokes */
+  --stroke-default: #232326;
+  --stroke-strong: #36363b;
+  --stroke-subtle: rgba(255, 255, 255, 0.06);
+
+  /* Brand: Circo red, as on the creator site */
+  --accent: #cd1942;
+  --accent-hover: #e01f4c;
+  --on-accent: #ffffff;
+
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --success: #22c55e;
+
+  --input-line: var(--stroke-strong);
+  --input-line-focus: var(--text-200);
+  --input-placeholder: var(--text-400);
+  --focus-ring: rgba(255, 255, 255, 0.12);
+
+  --glass-strong: rgba(255, 255, 255, 0.08);
+  --glass-soft: rgba(255, 255, 255, 0.05);
+  --glass-dark: rgba(255, 255, 255, 0.06);
+  --chip-dark: rgba(255, 255, 255, 0.06);
+
+  /* Corners: exact, not soft */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-xl: 8px;
+
+  /* Surfaces: cards and fields sit a step above the page */
+  --surface-1: #141416;
+  --surface-2: #1a1a1d;
+  --surface-3: #222226;
+  --hover: rgba(255, 255, 255, 0.04);
+  --pressed: rgba(255, 255, 255, 0.07);
+  --scrim: rgba(0, 0, 0, 0.6);
+
+  /* Type */
+  --font: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --tracking: -0.01em;
+  --fs-display: clamp(36px, 4.2vw, 52px);
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-pop: 0 4px 6px -2px rgba(0, 0, 0, 0.4), 0 16px 40px -8px rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-100);
+  font-family: var(--font);
+  letter-spacing: var(--tracking);
+}
+
+/* Eyebrows, steps and figures labels: the monospace voice. */
+.mono {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0;
+  color: var(--text-300);
+}
+
+/* ---------- Buttons: rectangles. Primary is Circo red; secondary is outlined. ---------- */
+
+.btn-white,
+.btn-dark,
+.btn-accent {
+  height: 44px;
+  padding: 0 18px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: var(--fw-medium);
+  letter-spacing: -0.01em;
+}
+
+.btn-white--sm,
+.btn-dark--sm,
+.btn-accent--sm {
+  height: 36px;
+  padding: 0 14px;
+  font-size: var(--fs-body-sm);
+}
+
+.btn-white,
+.btn-accent {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.btn-white:hover,
+.btn-accent:hover {
+  background: var(--accent-hover);
+  filter: none;
+}
+
+.btn-dark {
+  background: var(--surface-1);
+  border: 1px solid var(--stroke-strong);
+  color: var(--text-100);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.btn-dark:hover {
+  background: var(--surface-2);
+  border-color: var(--text-400);
+}
+
+.btn-white:active,
+.btn-dark:active,
+.btn-accent:active {
+  transform: none;
+  filter: brightness(0.96);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Toast and menus: white cards with a hairline and a soft shadow ---------- */
+
+.toast,
+.dd {
+  background: var(--surface-1);
+  border: 1px solid var(--stroke-default);
+  box-shadow: var(--shadow-pop);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.toast {
+  border-radius: var(--radius-md);
+  font-size: var(--fs-body-sm);
+}
+
+.toast__icon {
+  background: rgba(34, 197, 94, 0.14);
+  color: var(--success);
+}
+
+.dd {
+  border-radius: var(--radius-md);
+}
+
+.dd__header {
+  border-bottom-color: var(--stroke-default);
+}
+
+@media (max-width: 767px) {
+  .dd-scrim {
+    background: var(--scrim);
+  }
+
+  .dd.dd--sheet {
+    background: var(--surface-1);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    inset: auto 0 0 0;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+
+  .dd__grab {
+    background: var(--bg-400);
+  }
+
+  .dd--sheet .dd__item + .dd__item {
+    border-top-color: var(--stroke-default);
+  }
+}
+
+/* ---------- Dialogs ---------- */
+
+.ui-dialog {
+  background: var(--scrim);
+  backdrop-filter: none;
+}
+
+.ui-dialog__panel {
+  border-color: var(--stroke-default);
+  box-shadow: var(--shadow-pop);
+}
+
+.ui-dialog__close {
+  background: var(--surface-3);
+}
+
+.ui-dialog__close:hover {
+  background: var(--bg-400);
+}
+
+.ui-surface {
+  border-color: var(--stroke-default);
+}
+
+.ui-row {
+  border-bottom-color: var(--stroke-default);
+}
+
+/* ---------- Dashboard frame ---------- */
+
+.studio__side {
+  background: var(--bg-200);
+  border-right-color: var(--stroke-default);
+}
+
+.studio__link:hover {
+  background: var(--hover);
+}
+
+.studio__link.is-on {
+  background: var(--surface-1);
+  box-shadow: inset 0 0 0 1px var(--stroke-strong);
+}
+
+@media (max-width: 767px) {
+  .studio__side {
+    border-bottom-color: var(--stroke-default);
+  }
+}
+
+/* ---------- Account ---------- */
+
+.acct__item:hover {
+  background: var(--hover);
+}
+
+.acct__item.is-on {
+  background: var(--surface-3);
+}
+
+.acct__item::after {
+  background: var(--stroke-default);
+}
+
+.acct .acct__panel {
+  border-radius: var(--radius-xl);
+  border-color: var(--stroke-default);
+  box-shadow: var(--shadow-card);
+}

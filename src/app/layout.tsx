@@ -5,8 +5,9 @@ import '@/styles/base.css'
 import '@/styles/ui.css'
 import '@/styles/shell.css'
 import '@/styles/account.css'
+import '@/styles/auth.css'
+import '@/styles/theme.css'
 import { MenuProvider } from '@/components/Menu'
-import { Shell } from '@/components/Shell'
 
 export const metadata: Metadata = {
   title: 'Circo Studio',
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#040404',
+  themeColor: '#0b0b0c',
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -24,12 +25,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
       </head>
       <body>
-        <MenuProvider>
-          <Shell>{children}</Shell>
-        </MenuProvider>
+        <MenuProvider>{children}</MenuProvider>
       </body>
     </html>
   )
