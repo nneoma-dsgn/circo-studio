@@ -1,6 +1,6 @@
 /* ---------- Studio theme: the business look ----------
    Circo Studio is a workplace, not a cinema: quiet and exact, after Circo's creator site
-   (circleandclique.org). Geist with Geist Mono for labels, dark, with Circo red for the one
+   (circleandclique.org). SF Pro throughout, dark, with Circo red for the one
    main action, 4-6px corners instead of pills.
 
    The shared design system (tokens.css, ui.css, base.css) stays identical to the viewer app's.
@@ -61,8 +61,10 @@
   --scrim: rgba(0, 0, 0, 0.6);
 
   /* Type */
-  --font: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  /* SF Pro everywhere: Apple's system face, so nothing to load; other systems fall back to
+     their own. Labels use it too. */
+  --font: 'SF Pro Text', 'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: var(--font);
   --tracking: -0.01em;
   --fs-display: clamp(36px, 4.2vw, 52px);
 
@@ -78,11 +80,10 @@ body {
   letter-spacing: var(--tracking);
 }
 
-/* Eyebrows, steps and figures labels: the monospace voice. */
+/* Eyebrows and small labels. */
 .mono {
   font-family: var(--font-mono);
   font-size: 13px;
-  letter-spacing: 0;
   color: var(--text-300);
 }
 
@@ -220,46 +221,4 @@ body {
 
 .ui-row {
   border-bottom-color: var(--stroke-default);
-}
-
-/* ---------- Dashboard frame ---------- */
-
-.studio__side {
-  background: var(--bg-200);
-  border-right-color: var(--stroke-default);
-}
-
-.studio__link:hover {
-  background: var(--hover);
-}
-
-.studio__link.is-on {
-  background: var(--surface-1);
-  box-shadow: inset 0 0 0 1px var(--stroke-strong);
-}
-
-@media (max-width: 767px) {
-  .studio__side {
-    border-bottom-color: var(--stroke-default);
-  }
-}
-
-/* ---------- Account ---------- */
-
-.acct__item:hover {
-  background: var(--hover);
-}
-
-.acct__item.is-on {
-  background: var(--surface-3);
-}
-
-.acct__item::after {
-  background: var(--stroke-default);
-}
-
-.acct .acct__panel {
-  border-radius: var(--radius-xl);
-  border-color: var(--stroke-default);
-  box-shadow: var(--shadow-card);
 }

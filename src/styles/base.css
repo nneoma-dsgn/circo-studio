@@ -253,6 +253,10 @@ main {
   color: var(--text-100);
 }
 
+.dd__tick.is-off {
+  visibility: hidden;
+}
+
 .dd__chevron {
   flex: none;
   margin-left: -6px;

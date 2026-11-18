@@ -67,18 +67,6 @@
 }
 
 /* Help, Privacy, Terms under the step. */
-.login__legal {
-  display: flex;
-  gap: 20px;
-  margin-left: clamp(0px, 8vw, 100px);
-  font-size: 13px;
-  color: var(--text-400);
-}
-
-.login__legal a:hover {
-  color: var(--text-100);
-}
-
 /* Sign-up progress: one short bar per step, ink for done, red for the current one. */
 .steps {
   display: flex;
@@ -88,7 +76,8 @@
 }
 
 .steps__bar {
-  width: 40px;
+  flex: 0 1 40px;
+  min-width: 14px;
   height: 3px;
   border-radius: 2px;
   background: var(--stroke-default);
@@ -102,8 +91,19 @@
   background: var(--accent);
 }
 
-.steps .mono {
-  margin-left: 14px;
+/* "Step n of 4" before the bars, the part's name after them; the bars shrink on small phones. */
+.steps__label {
+  flex: none;
+  white-space: nowrap;
+  margin-right: 14px;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  color: var(--text-300);
+}
+
+.steps__label--part {
+  margin: 0 0 0 14px;
+  color: var(--text-100);
 }
 
 .auth {
@@ -155,8 +155,13 @@
   border-color: var(--text-400);
 }
 
+/* Below the small print, across a hairline, centred: the way to the other side. */
 .auth__switch {
-  margin: 24px 0 0;
+  max-width: 400px;
+  margin: 32px 0 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--stroke-default);
+  text-align: center;
   font-size: 15px;
   color: var(--text-300);
 }
@@ -176,24 +181,39 @@
 
 .auth__legal {
   max-width: 400px;
-  margin: 12px 0 0;
+  margin: 20px 0 0;
   font-size: 13px;
-  line-height: 1.55;
+  line-height: 1.6;
+  text-align: center;
+  text-wrap: balance;
   color: var(--text-400);
 }
 
-/* Studio setup: a labelled box field and the red button. */
+/* Email form: labelled box fields stacked above the red button. */
+.auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 400px;
+  margin-top: 36px;
+}
+
 .auth__field {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-width: 400px;
-  margin-top: 36px;
   font-size: 15px;
   color: var(--text-100);
 }
 
+.auth__label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
 .auth__field input {
+  width: 100%;
   height: 48px;
   padding: 0 14px;
   border: 1px solid var(--stroke-strong);
@@ -211,14 +231,110 @@
 }
 
 .auth__field input:focus {
-  border-color: var(--text-100);
+  border-color: var(--text-200);
   box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.auth__field.is-error input {
+  border-color: var(--danger);
+}
+
+.auth__error,
+.auth__hint {
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.auth__error {
+  color: var(--danger);
+}
+
+.auth__hint {
+  color: var(--text-400);
+}
+
+/* Password requirements: wrapping chips, grey until met, then white with a tick. */
+.pw-rules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: -8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pw-rules li {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--stroke-default);
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--text-400);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.pw-rules .is-ok {
+  border-color: var(--stroke-strong);
+  background: var(--surface-2);
+  color: var(--text-100);
+}
+
+.pw-rules .is-missing {
+  border-color: rgba(239, 68, 68, 0.5);
+  color: var(--danger);
+}
+
+/* Password: Show / Hide inside the box. */
+.auth__pw {
+  position: relative;
+  display: block;
+}
+
+.auth__pw input {
+  padding-right: 64px;
+}
+
+.auth__eye {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: var(--fw-medium);
+  color: var(--text-300);
+}
+
+.auth__eye:hover {
+  background: var(--hover);
+  color: var(--text-100);
+}
+
+.auth__link {
+  font-size: 13px;
+  color: var(--text-300);
+  text-decoration: underline;
+  text-decoration-color: var(--stroke-strong);
+  text-underline-offset: 3px;
+}
+
+.auth__link:hover {
+  color: var(--text-100);
 }
 
 .auth__actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
-  margin-top: 28px;
+  margin-top: 6px;
+}
+
+.auth__form .auth__actions .btn-white {
+  flex: 1;
 }
 
 .auth__actions .btn-white:disabled {
@@ -227,82 +343,405 @@
   cursor: not-allowed;
 }
 
-/* Signing in: a small spinner and a line in the mono voice. */
-.busy {
+/* A yes / no question as two boxed options with a radio dot, side by side. */
+.auth__choice {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 15px;
 }
 
-.spinner {
+.auth__choice legend {
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+.choice {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.choice__opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--stroke-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.choice__opt:hover {
+  border-color: var(--text-400);
+}
+
+.choice__opt.is-on {
+  border-color: var(--text-100);
+  background: var(--surface-2);
+}
+
+.choice__opt input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.choice__opt:has(input:focus-visible) {
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.choice__dot {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--text-400);
+  border-radius: 50%;
+}
+
+.choice__opt.is-on .choice__dot,
+.cards__opt.is-on .choice__dot {
+  border: 5px solid var(--accent);
+  background: #fff;
+}
+
+/* Read by screen readers only. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Studio type: two stacked cards, each an icon, a name and what it means for viewers. */
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cards__opt {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--stroke-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.cards__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--surface-3);
+  color: var(--text-200);
+}
+
+.cards__text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--text-300);
+}
+
+.cards__text strong {
+  font-size: 15px;
+  font-weight: var(--fw-medium);
+  color: var(--text-100);
+}
+
+.cards__opt.is-on .cards__icon {
+  background: var(--stroke-strong);
+  color: var(--text-100);
+}
+
+/* Categories: a grid of tiles, icon over name; any number can be picked, each ticked. */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.tiles__opt {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 84px;
+  padding: 12px;
+  border: 1px solid var(--stroke-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--text-200);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.tiles__opt svg {
+  color: var(--text-300);
+}
+
+.tiles__opt.is-on svg {
+  color: var(--text-100);
+}
+
+.tiles__check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
   width: 18px;
   height: 18px;
-  border: 2px solid var(--stroke-default);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  border: 1.5px solid var(--text-400);
+  border-radius: var(--radius-sm);
+  color: transparent;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.tiles__opt.is-on .tiles__check {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
-/* The Studio panel. */
+.tiles__opt .tiles__check svg {
+  color: transparent;
+}
+
+.tiles__opt.is-on .tiles__check svg {
+  color: var(--on-accent);
+}
+
+/* Shared by the cards, tiles and yes / no options: the hidden radio, hover and picked looks. */
+.cards__opt input,
+.tiles__opt input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cards__opt:hover,
+.tiles__opt:hover {
+  border-color: var(--text-400);
+}
+
+.cards__opt.is-on,
+.tiles__opt.is-on {
+  border-color: var(--text-100);
+  background: var(--surface-2);
+  color: var(--text-100);
+}
+
+.cards__opt:has(input:focus-visible),
+.tiles__opt:has(input:focus-visible) {
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+/* How you heard: wrapping pills; one can be picked. */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pills__opt {
+  height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--stroke-strong);
+  border-radius: 999px;
+  background: var(--surface-1);
+  font-size: 14px;
+  color: var(--text-200);
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.pills__opt:hover {
+  border-color: var(--text-400);
+}
+
+.pills__opt.is-on {
+  border-color: var(--text-100);
+  background: var(--text-100);
+  color: var(--bg-primary);
+}
+
+/* Email verification: six boxes, one digit each. */
+.code {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.code input {
+  width: 100%;
+  height: 56px;
+  border: 1px solid var(--stroke-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  font: inherit;
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--text-100);
+  outline: 0;
+}
+
+.code input:focus {
+  border-color: var(--text-200);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.auth__resend {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-400);
+}
+
+.auth__resend .auth__link {
+  font-size: 14px;
+}
+
+.invite__alt.invite__alt--end {
+  justify-content: flex-end;
+}
+
+/* Invite: a row per person (email, role, remove), then "Add another team member". */
+.invite {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.invite__line {
+  display: flex;
+  gap: 8px;
+}
+
+.invite__line input {
+  flex: 1;
+  min-width: 0;
+}
+
+.invite__role {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  width: 104px;
+  height: 48px;
+  padding: 0 12px 0 14px;
+  border: 1px solid var(--stroke-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  font-size: 15px;
+  color: var(--text-100);
+}
+
+.invite__role:hover {
+  border-color: var(--text-400);
+}
+
+.invite__line:has(.invite__remove) {
+  gap: 8px;
+}
+
+/* The ✕ sits flush with the right edge of the column (and the Send button below). */
+.invite__remove {
+  flex: none;
+  display: grid;
+  place-items: center end;
+  width: 24px;
+  height: 48px;
+  color: var(--text-400);
+}
+
+.invite__remove:hover {
+  color: var(--text-100);
+}
+
+.invite__add {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  margin-top: 2px;
+  padding: 6px 0;
+  font-size: 15px;
+  color: var(--text-200);
+}
+
+.invite__add:hover {
+  color: var(--text-100);
+}
+
+.invite__alt {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.invite__alt .auth__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.auth__sub strong {
+  color: var(--text-100);
+  font-weight: var(--fw-medium);
+}
+
+/* The Studio panel: blank, with the logo in the top corner. */
 .login__side {
   display: flex;
-  align-items: center;
-  padding: 48px clamp(32px, 5vw, 80px);
+  align-items: flex-start;
+  padding: 28px 32px;
   background: var(--bg-200);
   border-left: 1px solid var(--stroke-default);
 }
 
-.pitch {
-  max-width: 360px;
+.side__brand {
+  display: inline-flex;
 }
 
-.pitch__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0;
+.side__brand img {
+  display: block;
+  width: 86px;
+  height: auto;
 }
 
-.pitch__mark {
-  width: 10px;
-  height: 10px;
-  background: var(--accent);
-}
-
-.pitch__title {
-  margin: 16px 0 0;
-  font-size: 22px;
-  font-weight: var(--fw-regular);
-  line-height: 1.35;
-  letter-spacing: -0.02em;
-}
-
-.pitch__list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin: 28px 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: 15px;
-  color: var(--text-300);
-}
-
-.pitch__list li {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.pitch__list svg {
-  flex: none;
-  color: var(--accent);
+/* With the panel showing, the logo lives there; the header keeps only Back. */
+@media (min-width: 901px) {
+  .login__brand {
+    display: none;
+  }
 }
 
 /* Phones and tablets: just the step, full width. */
@@ -319,8 +758,7 @@
     padding: 20px 20px 24px;
   }
 
-  .login__col,
-  .login__legal {
+  .login__col {
     margin-left: 0;
   }
 
@@ -338,7 +776,7 @@
   }
 
   .auth__stack,
-  .auth__field,
+  .auth__form,
   .auth__legal {
     max-width: none;
   }
@@ -517,3 +955,9 @@
   gap: 18px;
 }
 
+/* The smallest phones: a step down so the headline stays on one line. */
+@media (max-width: 360px) {
+  .auth__title {
+    font-size: 31px;
+  }
+}

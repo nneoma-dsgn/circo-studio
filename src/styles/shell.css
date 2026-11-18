@@ -1,9 +1,13 @@
-/* ---------- Dashboard frame: sidebar on desktop, top bar on phones ---------- */
+/* ---------- Dashboard frame ----------
+   Desktop: a fixed sidebar (logo, studio, sections, the signed-in person at the foot) beside the
+   page. Phones: a top bar with the logo, and the sections as a tab bar along the bottom.
+   Nav rows: grey at rest, a soft wash on hover, and the current one lifted (raised surface,
+   hairline, white text and icon). */
 
 .studio {
   /* No top bar over the content on desktop, so pages start at the top. */
   --nav-h: 0px;
-  --side-w: 240px;
+  --side-w: 248px;
   display: grid;
   grid-template-columns: var(--side-w) minmax(0, 1fr);
   min-height: 100vh;
@@ -14,60 +18,237 @@
   top: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
   height: 100vh;
-  padding: var(--space-6) var(--space-4);
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
-  background: var(--bg-primary);
+  padding: 20px 12px 12px;
+  border-right: 1px solid var(--stroke-default);
+  background: var(--bg-200);
 }
 
+/* "Studio" sits small, on the logo's baseline. */
 .studio__brand {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 var(--space-3);
+  align-items: flex-end;
+  gap: 8px;
+  padding: 0 10px;
 }
 
 .studio__brand span {
-  font-size: var(--fs-body);
-  font-weight: var(--fw-semibold);
+  font-size: 13px;
+  font-weight: var(--fw-medium);
+  line-height: 1;
   color: var(--text-300);
+  transform: translateY(-3px);
 }
 
 .studio__nav {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  margin-top: 28px;
 }
 
 .studio__link {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
-  height: 44px;
-  padding: 0 var(--space-3);
-  border-radius: 12px;
-  font-size: var(--fs-body-sm);
+  height: 40px;
+  padding: 0 12px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
   font-weight: var(--fw-medium);
-  color: var(--text-200);
-  transition: background 0.2s, color 0.2s;
+  color: var(--text-300);
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+}
+
+.studio__link svg {
+  flex: none;
+  color: var(--text-400);
+  transition: color 0.15s;
 }
 
 .studio__link:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--hover);
   color: var(--text-100);
 }
 
+.studio__link:hover svg {
+  color: var(--text-200);
+}
+
+.studio__link:active {
+  background: var(--pressed);
+}
+
 .studio__link.is-on {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--stroke-default), 0 1px 2px rgba(0, 0, 0, 0.4);
   color: var(--text-100);
+}
+
+.studio__link.is-on svg {
+  color: var(--text-100);
+}
+
+.studio__link:focus-visible {
+  outline-offset: -2px;
+}
+
+/* The organization being worked in, at the foot: its initial and name; opens the menu (switch
+   studio, Settings, Log Out). */
+.studio__me {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
+  text-align: left;
+  color: var(--text-400);
+  transition: background 0.15s;
+}
+
+.studio__me:hover,
+.studio__me[aria-expanded='true'] {
+  background: var(--hover);
+  color: var(--text-200);
+}
+
+.studio__avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-md);
+  background: var(--surface-3);
+  font-size: 13px;
+  font-weight: var(--fw-semibold);
+  color: var(--text-100);
+}
+
+.studio__me-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.studio__me-text strong,
+.studio__me-text small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.studio__me-text strong {
+  font-size: 13px;
+  font-weight: var(--fw-medium);
+  color: var(--text-100);
+}
+
+.studio__me-text small {
+  font-size: 12px;
+  color: var(--text-400);
+}
+
+/* The studio menu: opens above the row and is exactly as wide as it, inside the sidebar. */
+.studio__foot {
+  position: relative;
+}
+
+.studio__pop {
+  position: absolute;
+  z-index: 50;
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 6px);
+  padding: 4px;
+  border: 1px solid var(--stroke-default);
+  border-radius: var(--radius-xl);
+  background: var(--surface-1);
+  box-shadow: var(--shadow-pop);
+  animation: pop-in 0.14s var(--ease);
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+.studio__pop-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 36px;
+  padding: 0 8px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: var(--fw-medium);
+  text-align: left;
+  color: var(--text-200);
+}
+
+.studio__pop-item:hover,
+.studio__pop-item:focus-visible {
+  background: var(--hover);
+  color: var(--text-100);
+  outline: 0;
+}
+
+.studio__pop-item svg {
+  flex: none;
+  color: var(--text-300);
+}
+
+/* Settings and Log Out icons sit in the same 22px column as the studio initials. */
+.studio__pop-item > svg:first-child {
+  margin: 0 3px;
+}
+
+.studio__pop-item--danger,
+.studio__pop-item--danger svg {
+  color: var(--danger);
+}
+
+.studio__pop-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.studio__pop-sep {
+  height: 1px;
+  margin: 4px 0;
+  background: var(--stroke-default);
+}
+
+.studio__avatar--sm {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
 }
 
 .studio__main {
   min-width: 0;
 }
 
-/* Pages inside the frame: room at the top and sides. */
+/* Pages inside the frame: room at the top and sides, then the page's name. */
+.page__title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 28px;
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.03em;
+}
+
 .page--padded {
   padding: var(--space-8) 0 96px;
 }
@@ -83,23 +264,82 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  /* The sidebar becomes a top bar: brand on the left; the section links come back as a menu
-     once there's more than one. */
+  /* The sidebar becomes a top bar with the brand; the sections become a tab bar along the
+     bottom of the screen. */
   .studio__side {
     z-index: 100;
     flex-direction: row;
     align-items: center;
     height: calc(var(--nav-h) + env(safe-area-inset-top));
-    padding: env(safe-area-inset-top) var(--space-2) 0 var(--space-1);
+    padding: env(safe-area-inset-top) var(--space-4) 0;
     border-right: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid var(--stroke-default);
   }
 
-  .studio__nav {
+  .studio__brand {
+    padding: 0;
+  }
+
+  .studio__me-text,
+  .studio__me > svg {
     display: none;
   }
 
+  /* On phones the studio menu is the initial, top right, and drops down from it. */
+  .studio__foot {
+    margin-left: auto;
+  }
+
+  .studio__pop {
+    left: auto;
+    right: 0;
+    bottom: auto;
+    top: calc(100% + 8px);
+    width: min(260px, calc(100vw - 32px));
+  }
+
+  .studio__me {
+    width: auto;
+    margin-left: auto;
+    padding: 0;
+    border: 0;
+  }
+
+  .studio__nav {
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: row;
+    gap: 0;
+    margin: 0;
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--stroke-default);
+    background: var(--bg-200);
+  }
+
+  .studio__link {
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    height: 52px;
+    padding: 0;
+    font-size: 11px;
+    color: var(--text-400);
+  }
+
+  .studio__link:hover {
+    background: none;
+  }
+
+  .studio__nav .studio__link.is-on {
+    background: none;
+    box-shadow: none;
+  }
+
   .page--padded {
-    padding: var(--space-4) 0 96px;
+    padding: var(--space-4) 0 calc(96px + env(safe-area-inset-bottom));
   }
 }

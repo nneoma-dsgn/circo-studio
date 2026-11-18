@@ -19,7 +19,7 @@ Next.js (App Router) + React + TypeScript. Styling is plain CSS with design toke
 
 | Path | What |
 | --- | --- |
-| `src/app/` | Routes. `login`, `signup` and `setup` (naming the studio after signing up) sit outside the dashboard; `(dashboard)/` holds every signed-in page inside the Shell, behind `RequireAuth`. `/` goes to `/account`, the only dashboard screen so far. |
+| `src/app/` | Routes. `login`, `signup` and `setup` (setting up the studio after signing up) sit outside the dashboard; `(dashboard)/` holds every signed-in page inside the Shell, behind `RequireAuth`: Dashboard (`/`), Studio, Reach, Payments and Settings, empty so far. |
 | `src/components/Shell.tsx` | The dashboard frame: sidebar on desktop, top bar on phones. Add sections to `NAV`. |
 | `src/views/Account.tsx` | Account: Your Account, Devices, Resources, Get Support, Log Out. |
 | `src/views/Auth.tsx` | Log In / Sign Up (Google and Apple, with a mock Google chooser) and studio setup. Styles in `src/styles/auth.css`. |
@@ -29,7 +29,7 @@ Next.js (App Router) + React + TypeScript. Styling is plain CSS with design toke
 
 ### Studio look
 
-Studio is styled as a business tool, after Circo's creator site: Geist and Geist Mono, Circo red
+Studio is styled as a business tool, after Circo's creator site: SF Pro throughout, Circo red
 (`#cd1942`) for the main action, 4–6px corners, in dark mode like the viewer app. `src/styles/theme.css`
 loads after the shared design system and re-points its tokens (the shared files stay identical
 to the viewer app's), so put Studio-only styling there.

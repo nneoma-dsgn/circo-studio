@@ -1,6 +1,7 @@
-import { redirect } from 'next/navigation'
-
-// Account is the only screen so far.
 export default function Page() {
-  redirect('/account')
+  return (
+    <div className="page page--padded">
+      <h1 className="page__title">Dashboard</h1>
+    </div>
+  )
 }

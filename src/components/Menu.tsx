@@ -156,6 +156,8 @@ function Dropdown({ placed, onClose }: { placed: Placed; onClose: () => void }) 
   const { spec } = placed
   // Ticks sit at the right end of a row; only other icons get a column on the left.
   const hasIcons = spec.items.some((it) => it.kind !== 'separator' && it.icon && it.icon !== 'check')
+  // A pick list (one row ticked): every row keeps room for the tick, so hints line up.
+  const hasTick = spec.items.some((it) => it.kind !== 'separator' && it.icon === 'check')
 
   const body = (
     <div ref={ref} className={`dd${sheet ? ' dd--sheet' : ''}`} role="menu" aria-label={spec.label} style={sheet ? undefined : { left: placed.x, top: pos.y, width: MENU_W, transformOrigin: pos.origin }}>
@@ -182,8 +184,8 @@ function Dropdown({ placed, onClose }: { placed: Placed; onClose: () => void }) 
             )}
             <span className="dd__label">{it.label}</span>
             {it.hint && <span className="dd__hint">{it.hint}</span>}
-            {it.icon === 'check' && (
-              <span className="dd__icon dd__tick" aria-hidden>
+            {hasTick && (
+              <span className={`dd__icon dd__tick${it.icon === 'check' ? '' : ' is-off'}`} aria-hidden>
                 <Icon name="check" size={17} />
               </span>
             )}
